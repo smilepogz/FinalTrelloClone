@@ -1,0 +1,19 @@
+
+{% extends 'clones/main.html' %}
+{% block content %}
+{% load static %}
+<h2>Personal Board</h2>
+<div class="container">
+    <div class="row">
+     
+      <div class="col-sm">
+        <a href="{% url 'addboard' %}" class="btn" >create</a>
+      </div>
+      {% for board in boards %} 
+      <div class="col-sm">
+        <a href="{% url 'dashboard' board.user board.title %}" class="btn" > {{ board.title }}</a>
+      </div>
+     {% endfor %}
+    </div>
+  </div>
+{% endblock %}

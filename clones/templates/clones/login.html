@@ -1,0 +1,16 @@
+
+
+<form class="form-signin" action="" method="post">
+    <h2 class="form-signin-heading">Login</h2>
+    {% csrf_token %}
+
+    <input class="input-block-level" required type="text" name="username" value="" id="username" placeholder="Username" >
+
+    <input class="input-block-level" required=true type="password" name="password" value="" id="username" placeholder="Password">
+   
+    <button class="btn btn-large btn-primary" type="submit">Login</button>
+    <input type="hidden" name="next" value="{{next|escape}}" />
+    {% if error %}
+    <p>Invalid username and password</p>
+    {% endif %}
+</form>
