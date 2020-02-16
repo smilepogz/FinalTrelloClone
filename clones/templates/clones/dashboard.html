@@ -2,44 +2,69 @@
 {% block content %}
 {% load static %}
 
-<div class="card" style="width: 18rem;">
-  
-  <div class="card-body">
-    <h5 class="card-title">sasas</h5>
-    <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">
-      cards
-    </button>
-    
-  </div>
-</div>
- 
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Desciptions</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Add more details">
-              </div>
-              <div class="form-group">
-                <label for="formGroupExampleInput2">Activity</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="write comment">
-              </div>
-            
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+
+<div class="row">
+  <div class="col-sm">
+    <div class="card" style="width: 18rem;">
+
+      <div class="card-body">
+        {% for board in a %}
+        <h5 class="card-title">{{ board.title }}</h5>
+        {% endfor %}
+
+        <br>
+        <a href="{% url 'card' %}" class="btn">add</a>
       </div>
     </div>
   </div>
+  <div class="col-sm">
+    <div class="card" style="width: 18rem;">
+
+      <div class="card-body">
+          {% for list in c %}
+        <h5 class="card-title">{{ list.title }}</h5>
+        {% endfor %}
+        <br>
+        <a href="#" class="btn">add</a>
+      </div>
+    </div>
+    
+<div class="card_list">
+  <a href="{% url 'cardlist' %}">Add Card List</a>  
+  </div>
+  
+</div>
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="formGroupExampleInput2">Descriptions</label>
+          <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Add more details">
+        </div>
+        <div class="form-group">
+          <label for="formGroupExampleInput2">Activity</label>
+          <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="write comment">
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
-

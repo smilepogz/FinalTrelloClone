@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django import forms
 
-from .models import Board
+from .models import Board,Card, BoardList
 
 
 class CreateUserForm(UserCreationForm):
@@ -16,3 +16,14 @@ class CreateBoardForm(ModelForm):
         model = Board
         
         fields = ['title', 'date_created', 'user', 'date_created', 'archive']
+
+
+class CreateCardForm(ModelForm):
+    class Meta:
+        model = Card
+        fields = ['title', 'description','date_created','archive','Attachment']
+
+class CreateBoardList(ModelForm):
+    class Meta:
+        model = BoardList
+        fields = ['title','board','date_created']

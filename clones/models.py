@@ -5,7 +5,7 @@ import uuid
 
 #Add Board on Home page board
 class Board(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, null=True, blank=True)
     date_created = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date_created = models.DateTimeField(default=timezone.now)
@@ -15,7 +15,7 @@ class Board(models.Model):
         return self.title
 
 class BoardList(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=200, null=True, blank=True)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     date_created = models.DateTimeField(default=timezone.now)
 
@@ -31,11 +31,11 @@ class BoardMember(models.Model):
 
 # Card Details
 class Card(models.Model):
-    title = models.CharField(max_length=50, blank=True)
-    description = models.TextField(max_length=None, blank=True)    
+    title = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(max_length=10, blank=True)    
     date_created = models.DateField(default=timezone.now)
     archive = models.BooleanField(default=False)
-    Attachment = models.CharField(max_length=100)
+    Attachment = models.FileField()
 
     def __str__(self):
         return self.title
