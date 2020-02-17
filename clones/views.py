@@ -6,88 +6,79 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.views import View
 from django.http import HttpResponseRedirect
+from django.views.generic import TemplateView
 
-from .models import Board, BoardList
-from .form import CreateUserForm, CreateBoardForm, CreateCardForm, CreateBoardList
+
+from .models import Board, BoardList, Card
+from .form import CreateUserForm, CreateBoardForm, CreateBoardList,CreateCardForm
+
 class HomeBoardView(TemplateView):
-
     """ Display all the title here im home page """
 
     template_name = 'clones/home.html'  
-    def get(self, *args, **kwargs):
-        
-        boards = Board.objects.all()
+    def get(self, *args, **kwargs,):
+        boards = Board.objects.filter(id__lt=10)
         return render(self.request, self.template_name, {'boards':boards})
 
-class CreateBoardView(View):
+class CreateBoardView(TemplateView):
     """ Add Board here """
-    form_class = CreateBoardForm
-    initial = {'key': 'value'}
+    form = CreateBoardForm
     template_name = 'clones/add_card.html'
 
     def get(self, request, *args, **kwargs):
-        form = self.form_class(initial=self.initial)
+        form = self.form()
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
+        form = self.form(self.request.POST)
         if form.is_valid():
             form.save()
             # return redirect('dashboard')
-        return render(request, self.template_name, {'form': form})
-class BoardDetailView(View):
+        return render(self.request, self.template_name, {'form': form})
+
+
+class BoardDetailView(TemplateView):
     """ Board Details """
 
     template_name = 'clones/dashboard.html'
-   
+    
     def get(self, *args, **kwargs):
         title = kwargs.get('title')
-        a = Board.objects.filter(title=title)
-        return render(self.request, self.template_name, {'a':a})
-class CreateCardForm(View):
-    """ Create Card  """
-    form_class = CreateCardForm
-    initial = {'key': ' value'}
-    template_name = 'clones/card.html'
-
-    def get(self, request, *args, **kwargs):
-        form = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {'form': form})
-
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-             form.save()
-        return render(request, self.template_name, {'form':form})
-
-
-class CreateBoardList(View):
-    form1 = CreateBoardList
-    initial = {'key':'value'}
+        details = Board.objects.filter(title=title)
+        boardlists = BoardList.objects.all()
+        cards = Card.objects.filter(title=title)
+        return render(self.request, self.template_name, {'details':details, 'boardlists':boardlists, 'cards':cards})
+    
+class CreateBoardList(TemplateView):
+    """" BoardList Form """
+    
     template_name = 'clones/cardlist.html'
-
+    form = CreateBoardList
     def get(self, request, *args, **kwargs):
-        form = self.form1(initial=self.initial)
+        form = self.form()
         return render(request, self.template_name,{'form':form})
 
     def post(self, request, *args, **kwargs):
-            form = self.form1(request.POST)
-            if form.is_valid():
-                form.save()
-                # return redirect('dashboard')
-            return render(request, self.template_name,{'form':form})
-
-# #Why Cant read the data and cannot pass to cardlist dashboard.html
-class CardListView(View):
+        form = self.form(request.POST)
+        if form.is_valid():
+            form.save()
     
-    """ Card List Details """
+        return render(request, self.template_name,{'form':form})
 
-    template_name = 'clones/dashboard.html'
-   
-    def get(self, *args, **kwargs):
-        title = kwargs.get('title')
-        c = BoardList.objects.filter(title=title)
-        return render(self.request, self.template_name, {'c':c})
+class CreateCardView(TemplateView):
+    """ Create Card  """
+    form = CreateCardForm
+    template_name = 'clones/card.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form()
+        return render(request, self.template_name,{'form': form})
+    def post(self, request, *args, **kwargs):
+        form = self.form(self.request.POST)
+        if form.is_valid():
+            form.save()
+    
+        return render(self.request, self.template_name,{'form':form})
 
 class RegisterView(View):
     form_class = CreateUserForm

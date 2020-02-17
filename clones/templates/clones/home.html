@@ -7,7 +7,7 @@
     <div class="row">
      
       <div class="col-sm">
-        <a href="{% url 'addboard' %}" class="btn" >create</a>
+        <a href="{% url 'addboard' user %}" class="btn" >create</a>
       </div>
       {% for board in boards %} 
       <div class="col-sm">
